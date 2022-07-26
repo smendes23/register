@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Propriedade extends BaseEntity {
 

@@ -1,14 +1,15 @@
 package br.com.agrotis.register.domain.base;
 
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-@Builder
 @Setter
 @Getter
 @MappedSuperclass
