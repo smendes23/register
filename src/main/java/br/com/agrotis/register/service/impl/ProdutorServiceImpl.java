@@ -4,6 +4,7 @@ import br.com.agrotis.register.domain.entity.Produtor;
 import br.com.agrotis.register.domain.mapper.ProdutorMapper;
 import br.com.agrotis.register.domain.request.ProdutorRequestDto;
 import br.com.agrotis.register.domain.response.ProdutorResponseDto;
+import br.com.agrotis.register.exception.BusinessRuleException;
 import br.com.agrotis.register.repository.LaboratorioRepository;
 import br.com.agrotis.register.repository.ProdutorRepository;
 import br.com.agrotis.register.repository.PropriedadeRepository;
@@ -31,7 +32,7 @@ public class ProdutorServiceImpl implements ProdutorService {
 
 
     @Override
-    public List<ProdutorResponseDto> listarTodos() throws Exception {
+    public List<ProdutorResponseDto> listarTodos() {
         return repository
                 .findAllProducer()
                 .stream()
@@ -41,16 +42,16 @@ public class ProdutorServiceImpl implements ProdutorService {
     }
 
     @Override
-    public ProdutorResponseDto buscarPorId(Integer id) throws Exception {
+    public ProdutorResponseDto buscarPorId(Integer id) throws BusinessRuleException {
         return repository
                 .findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new Exception("asdasd"));
+                .orElseThrow(() -> new BusinessRuleException("Produto de id: "+id+"nao existe"));
     }
 
     @Transactional
     @Override
-    public ProdutorResponseDto salvar(ProdutorRequestDto dto) throws Exception {
+    public ProdutorResponseDto salvar(ProdutorRequestDto dto) throws BusinessRuleException {
         try{
             Produtor produtor = mapper.toEntity(dto);
             produtor.setLaboratorio(buscarPorId(dto.getLaboratorio(), laboratorioRepository)
@@ -62,25 +63,25 @@ public class ProdutorServiceImpl implements ProdutorService {
             repository.save(produtor);
             return mapper.toDto(produtor);
         }catch (Exception e){
-            throw new Exception("Nao foi possivel salvar o produtor, causa: "+e.getCause());
+            throw new BusinessRuleException("Nao foi possivel salvar o produtor, causa: "+e.getCause());
         }
     }
 
     @Transactional
     @Override
-    public void deletar(Integer id) throws Exception {
+    public void deletar(Integer id) throws BusinessRuleException {
         try {
             Produtor produtor = repository.findById(id).orElseThrow();
             repository.delete(produtor);
         } catch (Exception e) {
-            log.error("Nao foi possivel remover o produtor, causa: "+e.getCause());
+            throw new BusinessRuleException("Nao foi possivel remover o produtor");
         }
     }
 
-    private <T>  Optional<T>  buscarPorId(Integer id, JpaRepository<T, Integer> t){
+    private <T>  Optional<T>  buscarPorId(Integer id, JpaRepository<T, Integer> t) throws BusinessRuleException {
         return Optional
                 .ofNullable(t.findById(id))
-                .orElseThrow(() -> new RuntimeException("nao foi possivel pegar"));
+                .orElseThrow(() -> new BusinessRuleException("nao foi possivel pegar"));
     }
 
 }

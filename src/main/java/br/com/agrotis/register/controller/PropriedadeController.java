@@ -4,6 +4,7 @@ import br.com.agrotis.register.controller.generic.ControllerGeneric;
 import br.com.agrotis.register.domain.mapper.PropriedadeMapper;
 import br.com.agrotis.register.domain.request.PropriedadeRequestDto;
 import br.com.agrotis.register.domain.response.PropriedadeResponseDto;
+import br.com.agrotis.register.exception.BusinessRuleException;
 import br.com.agrotis.register.service.PropriedadeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,28 +32,28 @@ public class PropriedadeController implements ControllerGeneric<PropriedadeRespo
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public ResponseEntity<PropriedadeResponseDto> salvar(@RequestBody PropriedadeRequestDto dto) throws Exception {
+    public ResponseEntity<PropriedadeResponseDto> salvar(@RequestBody PropriedadeRequestDto dto) throws BusinessRuleException {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<PropriedadeResponseDto> listarTodos() throws Exception {
+    public List<PropriedadeResponseDto> listarTodos() throws BusinessRuleException {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<PropriedadeResponseDto> buscarPorId(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<PropriedadeResponseDto> buscarPorId(@PathVariable Integer id) throws BusinessRuleException {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public void deletar(@PathVariable Integer id) throws Exception {
+    public void deletar(@PathVariable Integer id) throws BusinessRuleException {
         service.deletar(id);
     }
 }

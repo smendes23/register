@@ -4,6 +4,7 @@ package br.com.agrotis.register.controller;
 import br.com.agrotis.register.controller.generic.ControllerGeneric;
 import br.com.agrotis.register.domain.request.LaboratorioRequestDto;
 import br.com.agrotis.register.domain.response.LaboratorioResponseDto;
+import br.com.agrotis.register.exception.BusinessRuleException;
 import br.com.agrotis.register.service.LaboratorioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,21 +30,21 @@ public class LaboratioController implements ControllerGeneric<LaboratorioRespons
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public ResponseEntity<LaboratorioResponseDto> salvar(@RequestBody LaboratorioRequestDto dto) throws Exception {
+    public ResponseEntity<LaboratorioResponseDto> salvar(@RequestBody LaboratorioRequestDto dto) throws BusinessRuleException {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<LaboratorioResponseDto> listarTodos() throws Exception {
+    public List<LaboratorioResponseDto> listarTodos() throws BusinessRuleException {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<LaboratorioResponseDto> buscarPorId(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<LaboratorioResponseDto> buscarPorId(@PathVariable Integer id) throws BusinessRuleException {
 
         return ResponseEntity.ok(service.buscarPorId(id));
     }
@@ -51,7 +52,7 @@ public class LaboratioController implements ControllerGeneric<LaboratorioRespons
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public void deletar(@PathVariable Integer id) throws Exception {
+    public void deletar(@PathVariable Integer id) throws BusinessRuleException {
         service.deletar(id);
     }
 }

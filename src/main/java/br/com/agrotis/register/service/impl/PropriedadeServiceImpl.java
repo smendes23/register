@@ -4,6 +4,7 @@ import br.com.agrotis.register.domain.entity.Propriedade;
 import br.com.agrotis.register.domain.mapper.PropriedadeMapper;
 import br.com.agrotis.register.domain.request.PropriedadeRequestDto;
 import br.com.agrotis.register.domain.response.PropriedadeResponseDto;
+import br.com.agrotis.register.exception.BusinessRuleException;
 import br.com.agrotis.register.repository.PropriedadeRepository;
 import br.com.agrotis.register.service.PropriedadeService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class PropriedadeServiceImpl implements PropriedadeService {
     private final PropriedadeMapper mapper;
 
     @Override
-    public List<PropriedadeResponseDto> listarTodos() throws Exception {
+    public List<PropriedadeResponseDto> listarTodos() {
         return repository
                 .findAllProperties()
                 .stream()
@@ -36,23 +37,25 @@ public class PropriedadeServiceImpl implements PropriedadeService {
     }
 
     @Override
-    public PropriedadeResponseDto buscarPorId(Integer id) throws Exception {
-        return mapper.toDto(repository.findById(id).orElseThrow(() -> new Exception("asdasd")));
+    public PropriedadeResponseDto buscarPorId(Integer id) throws BusinessRuleException {
+        return repository
+                .findById(id)
+                .map(mapper::toDto).orElseThrow(() -> new BusinessRuleException("Nao foi possivel carregar a Propriedade"));
     }
 
     @Transactional
     @Override
-    public PropriedadeResponseDto salvar(PropriedadeRequestDto entity) throws Exception {
+    public PropriedadeResponseDto salvar(PropriedadeRequestDto entity){
         return mapper.toDto(repository.save(mapper.toEntity(entity)));
     }
 
 
     @Transactional
     @Override
-    public void deletar(Integer id) throws Exception {
+    public void deletar(Integer id) throws BusinessRuleException {
         Propriedade propriedade = repository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Nao foi possivel carregar a propriedade"));
+                .orElseThrow(() -> new BusinessRuleException("Nao foi possivel carregar a propriedade"));
         propriedade.setDataExclusao(OffsetDateTime.now());
         repository.save(propriedade);
     }
