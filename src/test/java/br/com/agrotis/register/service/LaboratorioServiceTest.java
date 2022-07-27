@@ -46,5 +46,5 @@ public class LaboratorioServiceTest {
 
         assertEquals(listaLaboratorios.size(), response.size());
     }
-    
+
 }

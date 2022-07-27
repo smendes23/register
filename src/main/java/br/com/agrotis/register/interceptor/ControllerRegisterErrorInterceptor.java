@@ -1,4 +1,4 @@
-package br.com.agrotis.register.advice;
+package br.com.agrotis.register.interceptor;
 
 import br.com.agrotis.register.exception.RegisterErrorResponse;
 import lombok.extern.slf4j.Slf4j;

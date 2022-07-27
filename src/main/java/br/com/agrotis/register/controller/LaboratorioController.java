@@ -6,6 +6,10 @@ import br.com.agrotis.register.domain.request.LaboratorioRequestDto;
 import br.com.agrotis.register.domain.response.LaboratorioResponseDto;
 import br.com.agrotis.register.exception.BusinessRuleException;
 import br.com.agrotis.register.service.LaboratorioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +27,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/laboratorio")
-public class LaboratioController implements ControllerGeneric<LaboratorioResponseDto, LaboratorioRequestDto> {
+@Api(value="Laboratorio", description="dominio laboratorio")
+public class LaboratorioController implements ControllerGeneric<LaboratorioResponseDto, LaboratorioRequestDto> {
 
     private final LaboratorioService service;
 
+    @ApiOperation(value = "Cria um laboratorio",response = LaboratorioResponseDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Laboratorio salvo com sucesso")
+    }
+    )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Override
