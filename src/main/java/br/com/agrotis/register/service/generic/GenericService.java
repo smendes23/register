@@ -1,12 +1,10 @@
 package br.com.agrotis.register.service.generic;
 
-import br.com.agrotis.register.domain.base.BaseEntity;
-
 import java.util.List;
 
-public interface GenericService <T extends BaseEntity, R> {
+public interface GenericService <T , R> {
 
-    List<R> listarTodos() throws Exception;
+    List<T> listarTodos() throws Exception;
 
     T buscarPorId(Integer id) throws Exception;
 

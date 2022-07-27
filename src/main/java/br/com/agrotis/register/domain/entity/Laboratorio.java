@@ -1,16 +1,32 @@
 package br.com.agrotis.register.domain.entity;
 
-import br.com.agrotis.register.domain.base.BaseEntity;
-import lombok.Data;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
 
+
+@Builder
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "laboratorio")
+@NamedQuery(name = "Laboratorio.findAllLabs",
+        query = "SELECT l FROM Laboratorio l ORDER BY l.id ASC")
+@AllArgsConstructor
 @NoArgsConstructor
-public class Laboratorio extends BaseEntity {
+public class Laboratorio  {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String nome;
+
+    private OffsetDateTime dataExclusao;
 }

@@ -1,9 +1,8 @@
 package br.com.agrotis.register.domain.mapper;
 
 import br.com.agrotis.register.domain.entity.Produtor;
-import br.com.agrotis.register.dto.LaboratorioDto;
-import br.com.agrotis.register.dto.ProdutorDto;
-import br.com.agrotis.register.dto.PropriedadeDto;
+import br.com.agrotis.register.domain.request.ProdutorRequestDto;
+import br.com.agrotis.register.domain.response.ProdutorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,36 +10,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProdutorMapper {
 
-    private final PropriedadeMapper propriedadeMapper;
     private final LaboratorioMapper laboratorioMapper;
+    private final PropriedadeMapper propriedadeMapper;
 
-    public ProdutorDto toDto(final Produtor produtor){
-        return ProdutorDto
+    public ProdutorResponseDto toDto(final Produtor produtor){
+        return ProdutorResponseDto
                 .builder()
                 .dataFinal(produtor.getDataFinal())
                 .dataInicial(produtor.getDataInicial())
-                .infosProriedade(PropriedadeDto
-                        .builder()
-                        .id(produtor.getInfosProriedade().getId())
-                        .nome(produtor.getInfosProriedade().getNome())
-                        .build())
-                .laboratorio(LaboratorioDto
-                        .builder()
-                        .id(produtor.getLaboratorio().getId())
-                        .nome(produtor.getLaboratorio().getNome())
-                        .build())
+                .infosPropriedade(propriedadeMapper.toDto(produtor.getPropriedade()))
+                .laboratorio(laboratorioMapper.toDto(produtor.getLaboratorio()))
                 .nome(produtor.getNome())
+                .observacoes(produtor.getObservacoes())
+                .id(produtor.getId())
                 .build();
     }
 
-    public Produtor toEntity(final  ProdutorDto dto){
+    public Produtor toEntity(final ProdutorRequestDto dto){
         return Produtor
                 .builder()
+                .nome(dto.getNome())
                 .dataFinal(dto.getDataFinal())
                 .dataInicial(dto.getDataInicial())
                 .observacoes(dto.getObservacoes())
-                .infosProriedade(propriedadeMapper.toEntity(dto.getInfosProriedade()))
-                .laboratorio(laboratorioMapper.toEntity(dto.getLaboratorio()))
                 .build();
     }
 }

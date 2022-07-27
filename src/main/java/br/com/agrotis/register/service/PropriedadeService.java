@@ -1,8 +1,8 @@
 package br.com.agrotis.register.service;
 
-import br.com.agrotis.register.domain.entity.Propriedade;
-import br.com.agrotis.register.dto.PropriedadeDto;
+import br.com.agrotis.register.domain.request.PropriedadeRequestDto;
+import br.com.agrotis.register.domain.response.PropriedadeResponseDto;
 import br.com.agrotis.register.service.generic.GenericService;
 
-public interface PropriedadeService extends GenericService<Propriedade, PropriedadeDto> {
+public interface PropriedadeService extends GenericService<PropriedadeResponseDto, PropriedadeRequestDto> {
 }

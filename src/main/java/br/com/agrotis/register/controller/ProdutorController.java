@@ -1,8 +1,8 @@
 package br.com.agrotis.register.controller;
 
 import br.com.agrotis.register.controller.generic.ControllerGeneric;
-import br.com.agrotis.register.domain.entity.Produtor;
-import br.com.agrotis.register.dto.ProdutorDto;
+import br.com.agrotis.register.domain.request.ProdutorRequestDto;
+import br.com.agrotis.register.domain.response.ProdutorResponseDto;
 import br.com.agrotis.register.service.ProdutorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,35 +21,35 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/produtor")
-public class ProdutorController implements ControllerGeneric<Produtor, ProdutorDto> {
+public class ProdutorController implements ControllerGeneric<ProdutorResponseDto, ProdutorRequestDto> {
 
     private final ProdutorService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Override
-    public ResponseEntity<Produtor> salvar(@RequestBody ProdutorDto dto) throws Exception {
+    public ResponseEntity<ProdutorResponseDto> salvar(@RequestBody ProdutorRequestDto dto) throws Exception {
         return ResponseEntity.ok(service.salvar(dto));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public List<ProdutorDto> listarTodos() throws Exception {
+    public List<ProdutorResponseDto> listarTodos() throws Exception {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<ProdutorDto> buscarPorId(@PathVariable Integer id) {
-        return null;
+    public ResponseEntity<ProdutorResponseDto> buscarPorId(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
-    public ResponseEntity<String> deletar(@PathVariable Integer id) {
-        return null;
+    public void deletar(@PathVariable Integer id) throws Exception {
+        service.deletar(id);
     }
 }
